@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Street Skate 3D</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+        #startScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1000;
+        }
+        #startButton {
+            font-size: 24px;
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        #startButton:hover {
+            background-color: #45a049;
+        }
+        #gameOver {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1000;
+        }
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+        }
+        #event {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            background-color: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #soundStatus {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="startScreen">
+        <h1 style="font-size: 48px; margin-bottom: 40px;">Street Skate 3D</h1>
+        <button id="startButton">START GAME</button>
+        <p style="margin-top: 20px; font-size: 16px;">Controls: WASD to move, SPACE to jump, E for ollie, SHIFT to grind</p>
+    </div>
+
+    <div id="gameOver">
+        <h1 id="gameOverText"></h1>
+        <p id="finalScore"></p>
+        <button id="restartButton" style="font-size: 24px; padding: 15px 30px; background-color: #4CAF50; border: none; border-radius: 5px; color: white; cursor: pointer; margin-top: 20px;">Play Again</button>
+    </div>
+
+    <div id="score">Score: 0</div>
+    <div id="event">None</div>
+    <div id="controls"></div>
+    <div id="soundStatus">Sound: ON</div>
+
+    <!-- Load Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Load game scripts -->
+    <script src="audio.js"></script>
+    <script src="game.js"></script>
+
+    <script>
+        // Start game when button is clicked
+        document.getElementById('startButton').addEventListener('click', function() {
+            // Hide the start screen
+            document.getElementById('startScreen').style.display = 'none';
+            
+            // Start audio context if it exists
+            if (window.startAudioContext) {
+                window.startAudioContext();
+            }
+            
+            // Initialize the game
+            if (typeof init === 'function') {
+                init();
+            }
+            
+            // Start animation loop
+            if (typeof animate === 'function') {
+                animate();
+            }
+        });
+
+        // Restart game when restart button is clicked
+        document.getElementById('restartButton').addEventListener('click', function() {
+            if (typeof resetGame === 'function') {
+                resetGame();
+            }
+        });
+    </script>
+</body>
+</html>
